@@ -49,6 +49,11 @@ subprojects {
         mavenCentral()
     }
 
+    java {
+        withJavadocJar()
+        withSourcesJar()
+    }
+
     dependencies {
         implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", Versions.kotlin)
         implementation("org.jetbrains.kotlin", "kotlin-stdlib", Versions.kotlin)
