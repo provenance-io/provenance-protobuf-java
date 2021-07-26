@@ -92,6 +92,18 @@ subprojects {
 
                     developers {
                         developer {
+                            id.set("wshin")
+                            name.set("Wontaek Shin")
+                            email.set("wshin@figure.com")
+                        }
+
+                        developer {
+                            id.set("gabrinthei")
+                            name.set("James Sonntag")
+                            email.set("jsonntag@figure.com")
+                        }
+
+                        developer {
                             id.set("scirner22")
                             name.set("Stephen Cirner")
                             email.set("scirner@figure.com")
