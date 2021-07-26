@@ -34,8 +34,6 @@ sourceSets {
 dependencies {
     // Protobuf
     implementation("com.google.protobuf", "protobuf-java", Versions.protobuf)
-    protobuf("com.figure.protobuf", "protobuf-java", Versions.protoUtil) { isTransitive = false }
-    api("com.figure.protobuf", "protobuf-java-util", Versions.protoUtil)
 
     // Grpc
     implementation("io.grpc", "grpc-stub", Versions.grpc)
@@ -141,26 +139,6 @@ protobuf {
                 // Apply the "grpc" plugin whose spec is defined above, without options.
                 id("grpc")
             }
-        }
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            url = uri("https://nexus.figure.com/repository/figure")
-            credentials {
-                username = findProperty("nexusUser")?.toString() ?: System.getenv("NEXUS_USER")
-                password = findProperty("nexusPass")?.toString() ?: System.getenv("NEXUS_PASS")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "io.provenance.protobuf"
-            artifactId = "pb-proto-java"
-            version = findProperty("artifactVersion")?.toString() ?: "default-1"
-            from(components["java"])
         }
     }
 }

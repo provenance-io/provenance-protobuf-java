@@ -12,9 +12,10 @@ buildscript {
 }
 
 plugins {
-    `java-library`
     idea
-    jacoco
+    `java-library`
+    `maven-publish`
+    signing
 }
 
 subprojects {
@@ -23,12 +24,13 @@ subprojects {
         plugin("kotlin")
         plugin("idea")
         plugin("java-library")
-        plugin("jacoco")
         plugin("org.jlleitschuh.gradle.ktlint")
+        plugin("maven-publish")
+        plugin("signing")
     }
 
-    group = "com.figure.wallet"
-    version = "1.0-SNAPSHOT"
+    group = "io.provenance.protobuf"
+    version = project.property("version")?.takeIf { it != "unspecified" } ?: "1.0-SNAPSHOT"
 
     project.ext.properties["kotlin_version"] = Versions.kotlin
 
@@ -44,25 +46,7 @@ subprojects {
     }
 
     repositories {
-
-        fun figureNexusUsername() = findProperty("nexusUser")?.toString() ?: System.getenv("NEXUS_USER")
-        fun figureNexusPassword() = findProperty("nexusPass")?.toString() ?: System.getenv("NEXUS_PASS")
-
-        maven {
-            url = uri("https://nexus.figure.com/repository/mirror")
-            credentials {
-                username = figureNexusUsername()
-                password = figureNexusPassword()
-            }
-        }
-        maven {
-            url = uri("https://nexus.figure.com/repository/figure")
-            credentials {
-                username = figureNexusUsername()
-                password = figureNexusPassword()
-            }
-        }
-        maven { url = uri("https://repo.spring.io/plugins-release") }
+        mavenCentral()
     }
 
     dependencies {
@@ -71,17 +55,67 @@ subprojects {
         implementation("org.jetbrains.kotlin", "kotlin-reflect", Versions.kotlin)
     }
 
-    tasks.test {
-        finalizedBy(tasks.jacocoTestReport)
-    }
+    publishing {
+        repositories {
+            maven {
+                name = "MavenCentral"
+                url = if (version == "1.0-SNAPSHOT") {
+                   uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                } else {
+                    uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                }
 
-    tasks.jacocoTestReport {
-        dependsOn(tasks.test)
+                credentials {
+                    username = findProject("ossrhUsername")?.toString() ?: System.getenv("OSSRH_USERNAME")
+                    password = findProject("ossrhPassword")?.toString() ?: System.getenv("OSSRH_PASSWORD")
+                }
+            }
+        }
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "io.provenance.protobuf"
+                artifactId = "pb-proto-java"
 
-        reports {
-            xml.isEnabled = false
-            csv.isEnabled = false
-            html.isEnabled = true
+                from(components["java"])
+
+                pom {
+                    name.set("Provenance Protobufs in Java")
+                    description.set("Compiles Provenance Protobufs into their Java representation.")
+                    url.set("https://provenance.io")
+
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("scirner22")
+                            name.set("Stephen Cirner")
+                            email.set("scirner@figure.com")
+                        }
+                    }
+
+                    scm {
+                        // TODO fix these
+                        connection.set("git@github.com:provenance-io/p8e-scope-sdk.git")
+                        developerConnection.set("git@github.com:provenance-io/p8e-scope-sdk.git")
+                        url.set("https://github.com/provenance-io/p8e-scope-sdk")
+                    }
+                }
+            }
+        }
+
+        signing {
+            sign(publishing.publications["maven"])
+        }
+
+        tasks.javadoc {
+            if(JavaVersion.current().isJava9Compatible) {
+                (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+            }
         }
     }
 }
