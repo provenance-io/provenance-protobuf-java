@@ -116,10 +116,9 @@ subprojects {
                     }
 
                     scm {
-                        // TODO fix these
-                        connection.set("git@github.com:provenance-io/p8e-scope-sdk.git")
-                        developerConnection.set("git@github.com:provenance-io/p8e-scope-sdk.git")
-                        url.set("https://github.com/provenance-io/p8e-scope-sdk")
+                        connection.set("git@github.com:provenance-io/provenance-protobuf-java.git")
+                        developerConnection.set("git@github.com:provenance-io/provenance-protobuf-java.git")
+                        url.set("https://github.com/provenance-io/provenance-protobuf-java")
                     }
                 }
             }
