@@ -5,7 +5,6 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin", "kotlin-gradle-plugin", Versions.kotlin)
         classpath("org.jetbrains.kotlin", "kotlin-allopen", Versions.kotlin)
-        classpath("org.springframework.boot", "spring-boot-gradle-plugin", Versions.springboot)
         classpath("org.jlleitschuh.gradle", "ktlint-gradle", Versions.ktlintPlugin)
         classpath("com.google.protobuf", "protobuf-gradle-plugin", Versions.protobufPlugin)
     }

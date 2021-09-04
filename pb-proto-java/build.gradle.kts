@@ -84,7 +84,7 @@ val downloadAndUnzipProvenanceProtos = tasks.create<Copy>("downloadAndUnzipProve
 }
 
 val downloadWasmProtos = tasks.create<Download>("downloadWasmProtos") {
-    src("https://github.com/CosmWasm/wasmd/archive/refs/tags/${Versions.wasmd}.tar.gz")
+    src("https://github.com/provenance-io/wasmd/archive/refs/tags/${Versions.wasmd}.tar.gz")
     dest(File(buildDir, "${Versions.wasmd}.tar.gz"))
     onlyIfModified(true)
 }
