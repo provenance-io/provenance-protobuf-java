@@ -92,9 +92,9 @@ val downloadWasmProtos = tasks.create<Download>("downloadWasmProtos") {
 val downloadAndUntarWasmdProtos = tasks.create<Copy>("downloadAndUntarWasmdProtos") {
     dependsOn(downloadWasmProtos)
     from(tarTree(downloadWasmProtos.dest)) {
-        include("**/x/wasm/internal/types/*.proto")
+        include("**/proto/cosmwasm/wasm/v1/*.proto")
         eachFile {
-            relativePath = RelativePath(true, "proto", *relativePath.segments.drop(1).toTypedArray())
+            relativePath = RelativePath(true, *relativePath.segments.drop(1).toTypedArray())
         }
         includeEmptyDirs = false
     }
