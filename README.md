@@ -11,3 +11,33 @@
 [license-url]: https://github.com/provenance-io/provenance-protobuf-java/blob/main/LICENSE
 
 Provenance protos transpiled to java for gRPC.
+
+## Installation
+
+### Maven
+
+```xml
+<dependency>
+  <groupId>io.provenance.protobuf</groupId>
+  <artifactId>pb-proto-java</artifactId>
+  <version>${version}</version>
+</dependency>
+```
+
+### Gradle
+
+#### Groovy
+
+In `build.gradle`:
+
+```groovy
+implementation 'io.provenance.protobuf:pb-proto-java:${version}'
+```
+
+#### Kotlin
+
+In `build.gradle.kts`:
+
+```kotlin
+implementation("io.provenance.protobuf:pb-proto-java:${version}")
+```
