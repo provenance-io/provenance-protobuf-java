@@ -1,7 +1,7 @@
 object Versions {
-    const val cosmos = "0.44.0"
-    const val wasmd = "v0.19.0"
-    const val pbProto = "1.7.0"
+    const val cosmos = "0.45.0"
+    const val wasmd = "v0.22.0"
+    const val pbProto = "1.8.0-rc2"
     const val protobuf = "3.6.1"
     const val protoUtil = "0.1.5"
     const val grpc = "1.39.0"
